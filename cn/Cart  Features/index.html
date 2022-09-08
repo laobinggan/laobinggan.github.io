@@ -139,10 +139,10 @@
   <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
 
   <!-- ga & ba script hoook -->
-  <link rel="canonical" href="https://github.com/laobinggan/laobinggan.github.io/cn/Java编译器处理泛型的过程/">
+  <link rel="canonical" href="https://github.com/laobinggan/laobinggan.github.io/cn/Cart  Features/">
   <title>
     
-      反射，处理泛型 - either thin | or die
+      Cart  Features - either thin | or die
     
   </title>
 <meta name="generator" content="Hexo 5.4.0"></head>
@@ -389,8 +389,10 @@
           <div class="post-heading">
             <div class="tags">
               
+              <a class="tag" href="/tags/#jojo" title="jojo">jojo</a>
+              
             </div>
-            <h1>反射，处理泛型</h1>
+            <h1>Cart  Features</h1>
             <h2 class="subheading"></h2>
             <span class="meta">
               Posted by 乔纳森·乔斯达 on
@@ -402,11 +404,11 @@
             <!-- WordCount start -->
             <div class="blank_box"></div>
             <span class="meta">
-              Estimated Reading Time <span class="post-count">9</span> Minutes
+              Estimated Reading Time <span class="post-count">1</span> Minutes
             </span>
             <div class="blank_box"></div>
             <span class="meta">
-              Words <span class="post-count">2.3k</span> In Total
+              Words <span class="post-count">230</span> In Total
             </span>
             <div class="blank_box"></div>
             <!-- WordCount end -->
@@ -468,77 +470,37 @@
       <!-- Post Container -->
       <div class="col-lg-8 col-lg-offset-1 col-md-10 col-md-offset-1 post-container">
 
-        <p><strong>反射</strong></p>
-<p>反射机制指的是程序在运行时能够获取自身的信息。在java中，只要给定类的名字，那么就可以通过反射机制来获得类的所有属性和方法。</p>
-<p><strong>作用</strong></p>
-<p>在运行时判断任意一个对象所属的类。</p>
-<p>在运行时判断任意一个类所具有的成员变量和方法。</p>
-<p>在运行时任意调用一个对象的方法</p>
-<p>在运行时构造任意一个类的对象</p>
-<p><strong>class</strong></p>
-<p>Java的Class类是java反射机制的基础,通过Class类我们可以获得关于一个类的相关信息</p>
-<p>Java.lang.Class是一个比较特殊的类，它用于封装被装入到JVM中的类（包括类和接口）的信息。当一个类或接口被装入的JVM时便会产生一个与之关联的java.lang.Class对象，可以通过这个Class对象对被装入类的详细信息进行访问。</p>
-<p>虚拟机为每种类型管理一个独一无二的Class对象。也就是说，每个类（型）都有一个Class对象。运行程序时，Java虚拟机(JVM)首先检查是否所要加载的类对应的Class对象是否已经加载。如果没有加载，JVM就会根据类名查找.class文件，并将其Class对象载入。</p>
-<p><strong>注解</strong></p>
-<p>元注解说简单点，就是 定义其他注解的注解 。 比如Override这个注解，就不是一个元注解。而是通过元注解定义出来的。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Target(ElementType.METHOD)</span><br><span class="line">@Retention(RetentionPolicy.SOURCE)</span><br><span class="line">public @interface Override &#123;</span><br><span class="line">&#125;复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p>这里面的 @Target @Retention 就是元注解。</p>
-<p>元注解有六个:@Target（表示该注解可以用于什么地方）、@Retention（表示再什么级别保存该注解信息）、@Documented（将此注解包含再javadoc中）、@Inherited（允许子类继承父类中的注解）、@Repeatable（1.8新增，允许一个注解在一个元素上使用多次）、@Native（1.8新增，修饰成员变量，表示这个变量可以被本地代码引用，常常被代码生成工具使用）。</p>
-<p><strong>类型擦除</strong></p>
-<p>通常情况下，一个编译器处理泛型有两种方式：</p>
-<p>1.<code>Code specialization</code>。在实例化一个泛型类或泛型方法时都产生一份新的目标代码（字节码or二进制代码）。例如，针对一个泛型<code>List</code>，可能需要 针对<code>String</code>，<code>Integer</code>，<code>Float</code>产生三份目标代码。</p>
-<p>2.<code>Code sharing</code>。对每个泛型类只生成唯一的一份目标代码；该泛型类的所有实例都映射到这份目标代码上，在需要的时候执行类型检查和类型转换。</p>
-<p><code>C++</code>和<code>C#</code>是使用<code>Code specialization</code>的处理机制，前面提到，他有一个缺点，那就是<strong>会导致代码膨胀</strong>。另外一个弊端是在引用类型系统中，浪费空间，因为引用类型集合中元素本质上都是一个指针。没必要为每个类型都产生一份执行代码。而这也是Java编译器中采用<code>Code sharing</code>方式处理泛型的主要原因。</p>
-<p><code>Java</code>编译器通过<code>Code sharing</code>方式为每个泛型类型创建唯一的字节码表示，并且将该泛型类型的实例都映射到这个唯一的字节码表示上。将多种泛型类形实例映射到唯一的字节码表示是通过<strong>类型擦除</strong>（<code>type erasure</code>）实现的。</p>
-<p>类型擦除的主要过程如下： 1.将所有的泛型参数用其最左边界（最顶级的父类型）类型替换。 2.移除所有的类型参数。</p>
-<h3 id="Java编译器处理泛型的过程">Java编译器处理泛型的过程</h3>
-<p><strong>code 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;  </span><br><span class="line">    Map&lt;String, String&gt; map &#x3D; new HashMap&lt;String, String&gt;();  </span><br><span class="line">    map.put(&quot;name&quot;, &quot;hollis&quot;);  </span><br><span class="line">    map.put(&quot;age&quot;, &quot;22&quot;);  </span><br><span class="line">    System.out.println(map.get(&quot;name&quot;));  </span><br><span class="line">    System.out.println(map.get(&quot;age&quot;));  </span><br><span class="line">&#125;  复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p><strong>反编译后的code 1:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) &#123;  </span><br><span class="line">    Map map &#x3D; new HashMap();  </span><br><span class="line">    map.put(&quot;name&quot;, &quot;hollis&quot;);  </span><br><span class="line">    map.put(&quot;age&quot;, &quot;22&quot;); </span><br><span class="line">    System.out.println((String) map.get(&quot;name&quot;));  </span><br><span class="line">    System.out.println((String) map.get(&quot;age&quot;));  </span><br><span class="line">&#125;  复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p>我们发现泛型都不见了，程序又变回了Java泛型出现之前的写法，泛型类型都变回了原生类型，</p>
-<hr>
-<p><strong>code 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">interface Comparable&lt;A&gt; &#123;</span><br><span class="line">    public int compareTo(A that);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public final class NumericValue implements Comparable&lt;NumericValue&gt; &#123;</span><br><span class="line">    private byte value;</span><br><span class="line"></span><br><span class="line">    public NumericValue(byte value) &#123;</span><br><span class="line">        this.value &#x3D; value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public byte getValue() &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int compareTo(NumericValue that) &#123;</span><br><span class="line">        return this.value - that.value;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p><strong>反编译后的code 2:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"> interface Comparable &#123;</span><br><span class="line">  public int compareTo( Object that);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line">public final class NumericValue</span><br><span class="line">    implements Comparable</span><br><span class="line">&#123;</span><br><span class="line">    public NumericValue(byte value)</span><br><span class="line">    &#123;</span><br><span class="line">        this.value &#x3D; value;</span><br><span class="line">    &#125;</span><br><span class="line">    public byte getValue()</span><br><span class="line">    &#123;</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line">    public int compareTo(NumericValue that)</span><br><span class="line">    &#123;</span><br><span class="line">        return value - that.value;</span><br><span class="line">    &#125;</span><br><span class="line">    public volatile int compareTo(Object obj)</span><br><span class="line">    &#123;</span><br><span class="line">        return compareTo((NumericValue)obj);</span><br><span class="line">    &#125;</span><br><span class="line">    private byte value;</span><br><span class="line">&#125;复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<hr>
-<p><strong>code 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Collections &#123;</span><br><span class="line">    public static &lt;A extends Comparable&lt;A&gt;&gt; A max(Collection&lt;A&gt; xs) &#123;</span><br><span class="line">        Iterator&lt;A&gt; xi &#x3D; xs.iterator();</span><br><span class="line">        A w &#x3D; xi.next();</span><br><span class="line">        while (xi.hasNext()) &#123;</span><br><span class="line">            A x &#x3D; xi.next();</span><br><span class="line">            if (w.compareTo(x) &lt; 0)</span><br><span class="line">                w &#x3D; x;</span><br><span class="line">        &#125;</span><br><span class="line">        return w;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p><strong>反编译后的code 3:</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class Collections</span><br><span class="line">&#123;</span><br><span class="line">    public Collections()</span><br><span class="line">    &#123;</span><br><span class="line">    &#125;</span><br><span class="line">    public static Comparable max(Collection xs)</span><br><span class="line">    &#123;</span><br><span class="line">        Iterator xi &#x3D; xs.iterator();</span><br><span class="line">        Comparable w &#x3D; (Comparable)xi.next();</span><br><span class="line">        while(xi.hasNext())</span><br><span class="line">        &#123;</span><br><span class="line">            Comparable x &#x3D; (Comparable)xi.next();</span><br><span class="line">            if(w.compareTo(x) &lt; 0)</span><br><span class="line">                w &#x3D; x;</span><br><span class="line">        &#125;</span><br><span class="line">        return w;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p>第2个泛型类<code>Comparable &lt;A&gt;</code>擦除后 A被替换为最左边界<code>Object</code>。<code>Comparable&lt;NumericValue&gt;</code>的类型参数<code>NumericValue</code>被擦除掉，但是这直 接导致<code>NumericValue</code>没有实现接口<code>Comparable的compareTo(Object that)</code>方法，于是编译器充当好人，添加了一个<strong>桥接方法</strong>。 第3个示例中限定了类型参数的边界<code>&lt;A extends Comparable&lt;A&gt;&gt;A</code>，A必须为<code>Comparable&lt;A&gt;</code>的子类，按照类型擦除的过程，先讲所有的类型参数 ti换为最左边界<code>Comparable&lt;A&gt;</code>，然后去掉参数类型<code>A</code>，得到最终的擦除后结果。</p>
-<p><strong>一、当泛型遇到重载：</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">public class GenericTypes &#123;  </span><br><span class="line"></span><br><span class="line">    public static void method(List&lt;String&gt; list) &#123;  </span><br><span class="line">        System.out.println(&quot;invoke method(List&lt;String&gt; list)&quot;);  </span><br><span class="line">    &#125;  </span><br><span class="line"></span><br><span class="line">    public static void method(List&lt;Integer&gt; list) &#123;  </span><br><span class="line">        System.out.println(&quot;invoke method(List&lt;Integer&gt; list)&quot;);  </span><br><span class="line">    &#125;  </span><br><span class="line">&#125;  复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p>上面这段代码，有两个重载的函数，因为他们的参数类型不同，一个是<code>List&lt;String&gt;</code>另一个是<code>List&lt;Integer&gt;</code> ，但是，这段代码是编译通不过的。因为我们前面讲过，参数<code>List&lt;Integer&gt;</code>和<code>List&lt;String&gt;</code>编译之后都被擦除了，变成了一样的原生类型List，擦除动作导致这两个方法的特征签名变得一模一样。</p>
-<p><strong>二、当泛型遇到catch:</strong></p>
-<p>如果我们自定义了一个泛型异常类GenericException，那么，不要尝试用多个catch取匹配不同的异常类型，例如你想要分别捕获GenericException、GenericException，这也是有问题的。</p>
-<p>三、当泛型内包含静态变量</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class StaticTest&#123;</span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        GT&lt;Integer&gt; gti &#x3D; new GT&lt;Integer&gt;();</span><br><span class="line">        gti.var&#x3D;1;</span><br><span class="line">        GT&lt;String&gt; gts &#x3D; new GT&lt;String&gt;();</span><br><span class="line">        gts.var&#x3D;2;</span><br><span class="line">        System.out.println(gti.var);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">class GT&lt;T&gt;&#123;</span><br><span class="line">    public static int var&#x3D;0;</span><br><span class="line">    public void nothing(T x)&#123;&#125;</span><br><span class="line">&#125;复制ErrorOK!</span><br></pre></td></tr></table></figure>
-<p>答案是——2！由于经过类型擦除，所有的泛型类实例都关联到同一份字节码上，泛型类的所有静态变量是共享的。</p>
-<p>总结</p>
-<p>1.虚拟机中没有泛型，只有普通类和普通方法,所有泛型类的类型参数在编译时都会被擦除,泛型类并没有自己独有的Class类对象。比如并不存在<code>List&lt;String&gt;</code>.class或是<code>List&lt;Integer&gt;.class</code>，而只有<code>List.class</code>。</p>
-<p>2.创建泛型对象时请指明类型，让编译器尽早的做参数检查（<strong>Effective Java，第23条：请不要在新代码中使用原生态类型</strong>）</p>
-<p>3.不要忽略编译器的警告信息，那意味着潜在的<code>ClassCastException</code>等着你。</p>
-<p>4.静态变量是被泛型类的所有实例所共享的。对于声明为<code>MyClass&lt;T&gt;</code>的类，访问其中的静态变量的方法仍然是 <code>MyClass.myStaticVar</code>。不管是通过<code>new MyClass&lt;String&gt;</code>还是<code>new MyClass&lt;Integer&gt;</code>创建的对象，都是共享一个静态变量。</p>
-<p>5.泛型的类型参数不能用在<code>Java</code>异常处理的<code>catch</code>语句中。因为异常处理是由JVM在运行时刻来进行的。由于类型信息被擦除，<code>JVM</code>是无法区分两个异常类型<code>MyException&lt;String&gt;</code>和<code>MyException&lt;Integer&gt;</code>的。对于<code>JVM</code>来说，它们都是 <code>MyException</code>类型的。也就无法执行与异常对应的<code>catch</code>语句。</p>
-<h1>限定通配符和非限定通配符</h1>
-<p><code>限定通配符</code>对类型进⾏限制， 泛型中有两种限定通配符：</p>
-<p>表示类型的上界，格式为：<code>&lt;？ extends T&gt;</code>，即类型必须为T类型或者T子类 表示类型的下界，格式为：<code>&lt;？ super T&gt;</code>，即类型必须为T类型或者T的父类</p>
-<p>泛型类型必须⽤限定内的类型来进⾏初始化，否则会导致编译错误。</p>
-<figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">⾮限定通配符`表⽰可以⽤任意泛型类型来替代，类型为`&lt;T&gt;</span><br></pre></td></tr></table></figure>
+        <p>Cart  Features</p>
+<p>Create</p>
+<ol>
+<li>
+<p>check</p>
+</li>
+<li>
+<p>当前账号是否有已存在的购物车</p>
+</li>
+<li>
+<p>计数不超过最大数量</p>
+</li>
+</ol>
+<figure class="highlight gradle"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">exist = <span class="keyword">this</span>.mapper.getByAccountId(dto.getAccountId(), dto.getShopId());</span><br><span class="line">         <span class="keyword">if</span> (<span class="keyword">null</span> != exist) &#123;</span><br><span class="line">             <span class="comment">// 去重,新增商品可能跟已存在的商品列表存在相同商品，此时进行合并</span></span><br><span class="line">             dto.getItems().addAll(exist.getItems());</span><br><span class="line">             List&lt;SimpleItem&gt; <span class="keyword">collect</span> = dto.getItems().parallelStream().<span class="keyword">collect</span>(Collectors.toMap(SimpleItem::getItemId, e -&gt; e,</span><br><span class="line">                     (v1, v2) -&gt; &#123;</span><br><span class="line">                         v1.setItemCount(v1.getItemCount() + v2.getItemCount());</span><br><span class="line">                         <span class="keyword">return</span> v1;</span><br><span class="line">                     &#125;)).values().parallelStream().<span class="keyword">collect</span>(Collectors.<span class="keyword">toList</span>());</span><br><span class="line"></span><br><span class="line">             dto.setItems(<span class="keyword">collect</span>);</span><br><span class="line">         &#125;</span><br></pre></td></tr></table></figure>
+<p>Update</p>
+<p>1.在不删除的情况下检验库存和商品状态是否上架git</p>
+<p>2.如果购物车存在accountId用id确认，不存在用uuid确认购物车</p>
+<p>3.购物车被删除，缓存仍有购物车id，走新建</p>
+<p>sendEmail</p>
+<p>1.定时任务从下个小时的0分开始半每小时执行一次</p>
+<p>2.选出炒24小时，accountId存在，购物车不为空的商品</p>
+<p>parallelStream 不能使用throw会有并发问题</p>
+
 
         <hr>
         <!-- Pager -->
         <ul class="pager">
           
-          <li class="previous">
-            <a href="/cn/浮点数不能用于金额计算，因为浮点型是小数的近似值/" data-toggle="tooltip" data-placement="top" title="浮点数">&larr; Previous Post</a>
-          </li>
-          
           
           <li class="next">
-            <a href="/cn/税费/" data-toggle="tooltip" data-placement="top" title="税">Next Post &rarr;</a>
+            <a href="/cn/Collection Class/" data-toggle="tooltip" data-placement="top" title="反射">Next Post &rarr;</a>
           </li>
           
         </ul>
@@ -587,7 +549,7 @@
       </a>
     </li>
     <li class="social-share-li">
-      <a target="_blank" class="social-share-icon" href="mailto:?subject=反射，处理泛型&body=Hi,I found this website and thought you might like it https://github.com/laobinggan/laobinggan.github.io/cn/Java编译器处理泛型的过程/">
+      <a target="_blank" class="social-share-icon" href="mailto:?subject=Cart  Features&body=Hi,I found this website and thought you might like it https://github.com/laobinggan/laobinggan.github.io/cn/Cart  Features/">
         <i class="fa fa-envelope fa-1x" aria-hidden="true"></i>
       </a>
     </li>
@@ -686,6 +648,8 @@
             <a href="/tags/">特色标签</a>
           </h5>
           <div class="tags">
+            
+            <a class="tag" href="/tags/#jojo" title="jojo">jojo</a>
             
           </div>
         </section>
